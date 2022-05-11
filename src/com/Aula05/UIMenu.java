@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class UIMenu extends Conta{
 
     static Scanner input = new Scanner(System.in);
-    private static int opt;
 
     public static int menuPrincipal(){
         int opt;
@@ -18,10 +17,9 @@ public class UIMenu extends Conta{
             opt = input.nextInt();
         }while(!validOptions.contains(opt));
         return opt;
-        
     }
 
-    public static int menuConta(){
+    public static void menuConta(){
         int opt;
         ArrayList<Integer> validOptions = new ArrayList<>(Arrays.asList(1,2,3));
         do{
@@ -29,9 +27,23 @@ public class UIMenu extends Conta{
             System.out.printf("1) Realizar operação de crédito \n2) Realizar operação de saque \n3) Verificar saldo \n4) Encerrar sessão");
             opt = input.nextInt();
         }while(!validOptions.contains(opt));
-        return opt;
         
+        switch(opt){
+            case 1 : {
+                Conta.credito();
+            }
+            case 2 : {
+                Conta.debito();
+            }
+            case 3 : {
+                Conta.saldo();
+            }
+            case 4 : {
+                UIMenu.run();
+            }
+        }
     }
+
     public static Object run(){
         int option = menuPrincipal();
         String nome, login, senha;
@@ -46,6 +58,10 @@ public class UIMenu extends Conta{
                 System.out.println("Digite a senha do usuario");
                 senha = input.nextLine();
                 Banco.criarUsuario(nome,login,senha,true);
+                System.out.println("Conta criada, retornando ao menu principal.");
+                System.out.println(Banco.usuarios.toString());
+                System.out.println("--------------------");
+                menuConta();
                 break;
             }
             case 2 : {
@@ -56,10 +72,11 @@ public class UIMenu extends Conta{
                 senha = input.nextLine();
                 
                 if(Banco.autenticar(login,senha)>0){
-                    System.out.println("Usuario não encontrado");
-                }else{
                     System.out.print("Seja bem vindo ");
                     System.out.println(Banco.getUsuarioLogado());
+                    menuConta();
+                }else{
+                    System.out.println("Usuario não encontrado");
                 }
                 break;
             }

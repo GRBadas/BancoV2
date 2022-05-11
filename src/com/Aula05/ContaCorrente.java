@@ -1,6 +1,9 @@
 package src.com.Aula05;
 
+import java.util.Scanner;
+
 public class ContaCorrente extends Conta{
+    Scanner input = new Scanner(System.in);
 
     public ContaCorrente(double s) {
         super(s);

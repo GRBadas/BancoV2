@@ -1,6 +1,9 @@
 package src.com.Aula05;
 
+import java.util.Scanner;
+
 public class ContaPoupanca extends Conta{
+    Scanner input = new Scanner(System.in);
 
     public ContaPoupanca(double saldoInicial) {
         super(saldoInicial);
