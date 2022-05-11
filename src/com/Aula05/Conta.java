@@ -1,27 +1,19 @@
 package src.com.Aula05;
-import java.util.Scanner;
 
-public class Conta {
-    static Scanner input = new Scanner(System.in);
 
+public abstract class Conta {
     public double saldo;
-
-    public Conta() {
-        System.out.println("Digite o saldo inicial da conta :");
-        double saldo = input.nextDouble();
+  
+    public Conta(double saldo) {
         this.saldo = saldo;
     }
 
-    public Conta(double saldoInicial) {
+    public Conta() {
     }
 
-    public void credito(){
-    }
+    public void credito(){}
 
-    public void debito(){
-    }
+    public void debito(){}
 
-    public void saldo(){
-
-    }
+    public void saldo(){}
 }
