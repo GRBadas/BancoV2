@@ -28,6 +28,11 @@ public class UIMenu {
 
                 System.out.println("Digite o login do usuario: ");
                 String login = input.nextLine();
+                while(Banco.checarSeLoginExiste(login)){
+                    System.out.println("Login já utilizado, insira um novo login.");
+                    login = input.nextLine();
+                }
+                
 
                 System.out.println("Digite a senha do usuario: ");
                 String senha = input.nextLine();
@@ -41,7 +46,7 @@ public class UIMenu {
                 System.out.println("Digite seu saldo inicial : ");
                 double saldoInicial = input.nextDouble();
                 user.getConta().setSaldo(saldoInicial);
-                
+
                 System.out.println("Conta criada, retornando ao menu principal.");
                 System.out.println("--------------------");
                 menuPrincipal();

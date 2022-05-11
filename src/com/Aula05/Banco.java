@@ -13,6 +13,14 @@ public class Banco {
         return usuario;
     }
 
+    public static boolean checarSeLoginExiste(String login){
+        for (Usuario usuario : usuarios) {
+            if(usuario.login.equals(login))
+                return true;
+        }
+        return false;
+    }
+
     public static Usuario autenticar(String login, String senha){
         for (int i = 0; i < usuarios.size(); i++){
             if(usuarios.get(i).login.equals(login)){
