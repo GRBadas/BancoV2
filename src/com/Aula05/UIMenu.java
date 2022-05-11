@@ -4,90 +4,112 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class UIMenu extends Conta{
+public class UIMenu {
 
     static Scanner input = new Scanner(System.in);
 
-    public static int menuPrincipal(){
+    public static int menuPrincipal() {
         int opt;
-        ArrayList<Integer> validOptions = new ArrayList<>(Arrays.asList(1,2,3));
-        do{
-            System.out.println("Selecione a opção desejada ");
-            System.out.printf("1) Criar nova conta \n2) Acessar conta \n3) Sair \n");
-            opt = input.nextInt();
-        }while(!validOptions.contains(opt));
-        return opt;
-    }
+        ArrayList<Integer> validOptions = new ArrayList<>(Arrays.asList(1, 2, 3));
 
-    public static void menuConta(){
-        int opt;
-        ArrayList<Integer> validOptions = new ArrayList<>(Arrays.asList(1,2,3));
-        do{
-            System.out.println("Selecione a opção desejada ");
-            System.out.printf("1) Realizar operação de crédito \n2) Realizar operação de saque \n3) Verificar saldo \n4) Encerrar sessão");
-            opt = input.nextInt();
-        }while(!validOptions.contains(opt));
-        
-        switch(opt){
-            case 1 : {
-                Conta.credito();
-            }
-            case 2 : {
-                Conta.debito();
-            }
-            case 3 : {
-                Conta.saldo();
-            }
-            case 4 : {
-                UIMenu.run();
-            }
-        }
-    }
+        System.out.println("Selecione a opção desejada ");
+        System.out.printf(
+                "--------------------\n1) Criar nova conta \n2) Acessar conta \n3) Sair \n-------------------- \n");
+        opt = input.nextInt();
+        if (!validOptions.contains(opt))
+            return menuPrincipal();
 
-    public static Object run(){
-        int option = menuPrincipal();
-        String nome, login, senha;
-        switch(option){
+        switch (opt) {
 
-            case 1 : {
-                System.out.println("Digite o nome do usuario");
-                input.nextLine();
-                nome = input.nextLine();
-                System.out.println("Digite o login do usuario");
-                login = input.nextLine();
-                System.out.println("Digite a senha do usuario");
-                senha = input.nextLine();
-                Banco.criarUsuario(nome,login,senha,true);
+            case 1: { // criar conta
+                input = new Scanner(System.in);
+                System.out.println("Digite o nome do usuario: ");
+                String nome = input.nextLine();
+
+                System.out.println("Digite o login do usuario: ");
+                String login = input.nextLine();
+
+                System.out.println("Digite a senha do usuario: ");
+                String senha = input.nextLine();
+
+                Boolean tipoConta = true;
+                System.out.println("Conta poupança ? (s/n) ");
+                if(input.nextLine().equals("s"))
+                    tipoConta = false;  
+
+                Usuario user = Banco.criarUsuario(nome, login, senha, tipoConta);
+                System.out.println("Digite seu saldo inicial : ");
+                double saldoInicial = input.nextDouble();
+                user.getConta().setSaldo(saldoInicial);
+                
                 System.out.println("Conta criada, retornando ao menu principal.");
-                System.out.println(Banco.usuarios.toString());
                 System.out.println("--------------------");
-                menuConta();
+                menuPrincipal();
                 break;
             }
-            case 2 : {
-                System.out.println("Digite o login do usuario");
-                input.nextLine();
-                login = input.nextLine();
-                System.out.println("Digite a senha do usuario");
-                senha = input.nextLine();
-                
-                if(Banco.autenticar(login,senha)>0){
-                    System.out.print("Seja bem vindo ");
-                    System.out.println(Banco.getUsuarioLogado());
-                    menuConta();
-                }else{
+            case 2: { // Acessar conta
+                input = new Scanner(System.in);
+                System.out.println("Digite o login do usuario: ");
+                String login = input.nextLine();
+                System.out.println("Digite a senha do usuario: ");
+                String senha = input.nextLine();
+
+                Banco.autenticar(login, senha);
+                if (Banco.usuarioLogado != null) {
+                    System.out.print("Seja bem vindo " + Banco.usuarioLogado.login + "!");
+                    menuConta(Banco.usuarioLogado.getConta());
+                } else {
                     System.out.println("Usuario não encontrado");
                 }
                 break;
             }
-            case 3 : {
+            case 3: {
                 System.out.println("Até logo..");
                 System.exit(0);
                 break;
             }
-            
+
         }
-        return run();
+        return menuPrincipal();
     }
-    
+
+
+    public static void menuConta(Conta conta) {
+        int opt;
+        ArrayList<Integer> validOptions = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
+
+        System.out.println("Selecione a opção desejada ");
+        System.out.printf(
+                "1) Realizar operação de crédito \n2) Realizar operação de saque \n3) Verificar saldo \n4) Encerrar sessão");
+        opt = input.nextInt();
+        if (!validOptions.contains(opt)) {
+            System.out.println("Opção inválida. ");
+            menuConta(conta);
+        }
+
+        switch (opt) {
+            case 1: {
+                conta.credito();
+                break;
+            }
+            case 2: {
+                conta.debito();
+                break;
+            }
+            case 3: {
+                conta.saldo();
+                break;
+            }
+            case 4: {
+                Banco.usuarioLogado = null;
+                menuPrincipal();
+                break;
+            }
+        }
+        UIMenu.menuConta(conta);
+    }
+
+    public static void run() {
+        menuPrincipal();
+ }
 }

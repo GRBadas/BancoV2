@@ -18,6 +18,12 @@ public class Usuario extends Pessoa{
         this.conta = new ContaPoupanca(0.0);
     }
 
+    
+
+    public Conta getConta() {
+        return conta;
+    }
+
     public void setSenha(String senha){
         this.senha = senha;
     }

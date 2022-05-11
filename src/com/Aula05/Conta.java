@@ -16,4 +16,8 @@ public abstract class Conta {
     public void debito(){}
 
     public void saldo(){}
+
+    public void setSaldo(double saldo){
+    this.saldo = saldo;
+    }
 }

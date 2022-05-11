@@ -9,6 +9,10 @@ public class ContaPoupanca extends Conta{
         super(saldoInicial);
     }
 
+    public ContaPoupanca(){
+        super();
+    }
+
     @Override
     public void credito() {
         System.out.println("Digite quanto você deseja depositar :");

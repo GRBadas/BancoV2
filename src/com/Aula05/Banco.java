@@ -5,27 +5,28 @@ import java.util.ArrayList;
 public class Banco {
 
     public static ArrayList<Usuario> usuarios = new ArrayList<>();
-    public static int contUsuarios = 0;
-    public int UsuarioLogado = -1;
+    public static Usuario usuarioLogado = null;
 
-    public static void criarUsuario(String nome, String login, String senha, boolean cc){
-        usuarios.add(new Usuario(nome,login,senha,cc));
-        contUsuarios ++;
+    public static Usuario criarUsuario(String nome, String login, String senha, boolean cc){
+        Usuario usuario = new Usuario(nome, login, senha, cc);
+        usuarios.add(usuario);
+        return usuario;
     }
 
-    public static int autenticar(String login, String senha){
-        for (int i = 0; i < contUsuarios; i++){
+    public static Usuario autenticar(String login, String senha){
+        for (int i = 0; i < usuarios.size(); i++){
             if(usuarios.get(i).login.equals(login)){
                 if(usuarios.get(i).validarSenha(senha)){
-                    return i;
+                    usuarioLogado = usuarios.get(i);
+                    return usuarioLogado;
                 }
             }
         }
     
-    return -1;
+    return null;
  }
 
  public static Object getUsuarioLogado(){
-     throw new UnsupportedOperationException("Not supported yet");
+     return usuarioLogado;
  }
 }

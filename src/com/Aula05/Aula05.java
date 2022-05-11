@@ -7,14 +7,9 @@ public class Aula05{
 
     public static void main(String[] args){
 
-        /*Conta c1 = new Conta();
-        
-        c1.credito();
-        c1.debito();
-        c1.saldo();
-        
-        input.close();*/
-
+        Usuario badas = Banco.criarUsuario("Badas","Badas" , "123", true);
+        badas.getConta().setSaldo(500);
         UIMenu.run();
+        
     }
 }

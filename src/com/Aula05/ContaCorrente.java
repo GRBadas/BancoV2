@@ -8,6 +8,10 @@ public class ContaCorrente extends Conta{
     public ContaCorrente(double s) {
         super(s);
     }
+
+    public ContaCorrente(){
+        super();
+    }
     
     @Override
     public void credito() {
